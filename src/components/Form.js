@@ -44,7 +44,7 @@ export default function Form({updateForecast, countryData}) {
     const [formData, setFormData] = useState({
         continent: 'Africa',
         country: 'Nigeria',
-        city: 'Obalende',
+        city: 'Ikeja',
         date: getDateRange().min,
         remember: false,
     });
