@@ -132,7 +132,6 @@ export default function Form({updateForecast, countryData}) {
                 return updateForecast({ status: 'error', data: `Oops! ${data.error.message}`})
             }
             else {
-                console.log(data)
                 const { remember, date, ...choices } = formData;
                 // Save search to localStorage if user checked the checkbox
                 remember && localStorage.setItem('previousSearches', JSON.stringify([...previousSearches, choices]))
