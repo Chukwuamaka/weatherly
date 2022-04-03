@@ -153,16 +153,16 @@ export default function Form({updateForecast, countryData}) {
 
     return (
         <form onSubmit={handleSubmit}>
-            <Text textAlign='center' color='gray.500' fontSize={['95%', null]} px={4} pb={6}>Kindly fill out the form below so we can retrieve your data</Text>
+            <Text textAlign='center' color='gray.500' fontSize={['95%', null]} px={4} pb={6} data-testid="form-instruction">Kindly fill out the form below so we can retrieve your data</Text>
             <VStack spacing={2} fontSize={18} maxW='85%' margin='auto'>
                 {
                     // Display Select element only if user has previous searches saved
                     previousSearches.length !== 0 && 
                     <>
                         <FormControl>
-                            <Select name='usePrev' placeholder='Would you like to use a previously saved search?' color='black' borderColor='brand.primary' onChange={handleSelect}>
+                            <Select data-testid="use-prev" name='usePrev' placeholder='Would you like to use a previously saved search?' color='black' borderColor='brand.primary' onChange={handleSelect}>
                                 <option value='yes'>Yes, please</option>
-                                <option value='false'>No, maybe later</option>
+                                <option value='no'>No, maybe later</option>
                             </Select>
                         </FormControl>
                         <Dialog isOpen={isOpen} onClose={onClose} previousSearches={previousSearches} selectSearch={usePreviousSearch} />
@@ -182,7 +182,7 @@ export default function Form({updateForecast, countryData}) {
                         <Select id='country' name='country' value={formData.country} placeholder='Select Country' color='black' borderColor='brand.primary' onChange={handleSelect}>
                             {
                                 // Display countries that match the selected continent
-                                countryData.filter(item => item.continent === formData.continent).map((country, index) => (
+                                countryData && countryData.filter(item => item.continent === formData.continent).map((country, index) => (
                                     <option key={country.country+index} value={country.country}>{country.country}</option>
                                 ))
                             }
@@ -195,7 +195,7 @@ export default function Form({updateForecast, countryData}) {
                         <Select id='city' name='city' value={formData.city} placeholder='Select City' color='black' borderColor='brand.primary' onChange={handleSelect}>
                             {
                                 // Display cities that match the selected country
-                                countryData.filter(item => item.country === formData.country)[0].cities.map((city, index) => (
+                                countryData && countryData.filter(item => item.country === formData.country)[0].cities.map((city, index) => (
                                     <option key={city+index} value={city}>{city}</option>
                                 ))
                             }
@@ -209,7 +209,7 @@ export default function Form({updateForecast, countryData}) {
                 <FormControl textAlign='center' color='blackAlpha.700'>
                     <Checkbox name='remember' size='sm' mt={5} mb={1} onChange={handleSelect}>Remember this search</Checkbox>
                 </FormControl>
-                <Button type='submit' isLoading={loading} loadingText='Fetching Data' bgColor='brand.primary' color='white' _hover={{bgColor: 'brand.primary'}} spinner={<BeatLoader size={8} color='white' />} spinnerPlacement='end'>
+                <Button data-testid="submit-button" type='submit' isLoading={loading} loadingText='Fetching Data' bgColor='brand.primary' color='white' _hover={{bgColor: 'brand.primary'}} spinner={<BeatLoader size={8} color='white' />} spinnerPlacement='end'>
                     Check Forecast
                 </Button>
             </VStack>
