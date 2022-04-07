@@ -17,7 +17,7 @@ export default function Form({updateForecast, countryData}) {
     });
 
     // The weather api provides only current and future weather data up to 10 days
-    // getDateRange returns the min. (current date) and max. (current date + 9) date values obtainable
+    // getDateRange returns the min. (current date) and max. (current date + 2) date values obtainable
     const getDateRange = () => {
         // Get current date and add a leading zero if the number of digits is less than 2
         const today = new Date().getDate();
@@ -27,7 +27,7 @@ export default function Form({updateForecast, countryData}) {
         // Get current year
         const currentYear = new Date().getFullYear();
         // Get time epoch of max. date
-        const future = new Date().setDate(today + 9);
+        const future = new Date().setDate(today + 2);
         // Get max. date and month and add a leading zero if the number of digits is less than 2
         const futureDate = ('0' + new Date(future).getDate()).slice(-2);
         const futureMonth = ('0' + (new Date(future).getMonth() + 1)).slice(-2);
