@@ -7,8 +7,12 @@ import useSWR from 'swr';
 
 // Pre-fetch list of countries and cities
 export const getStaticProps = async () => {
-  const res = await fetch('https://countrycontinentlists.herokuapp.com/countries/all');
-  const data = await res.json();
+  try {
+    const res = await fetch('https://countrycontinentlists.herokuapp.com/countries/all');
+    const data = await res.json();
+  } catch (error) {
+    console.log(error);
+  }
 
   return {
     props: {
@@ -47,7 +51,7 @@ export default function Home({countryData}) {
 
       <main className={styles.main}>
         <VStack spacing={6}>
-          <Text as='h1' fontFamily='cursive' fontSize='160%'>Weatherly</Text>
+          <Text as='h1' fontFamily='cursive' fontSize='160%' data-testid="app-title">Weatherly</Text>
           <Card updateWeatherCondition={updateWeatherCondition} countryData={countryData} />
         </VStack>
       </main>
