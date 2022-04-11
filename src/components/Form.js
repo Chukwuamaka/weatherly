@@ -152,8 +152,8 @@ export default function Form({updateForecast, countryData}) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <Text textAlign='center' color='gray.500' fontSize={['95%', null]} px={4} pb={6} data-testid="form-instruction">Kindly fill out the form below so we can retrieve your data</Text>
+        <form aria-label="Provide weather forecast query data" onSubmit={handleSubmit}>
+            <Text textAlign='center' color='gray.500' fontSize={['95%', null]} px={4} pb={6}>Kindly fill out the form below so we can retrieve your data</Text>
             <VStack spacing={2} fontSize={18} maxW='85%' margin='auto'>
                 {
                     // Display Select element only if user has previous searches saved
@@ -161,8 +161,8 @@ export default function Form({updateForecast, countryData}) {
                     <>
                         <FormControl>
                             <Select data-testid="use-prev" name='usePrev' placeholder='Would you like to use a previously saved search?' color='black' borderColor='brand.primary' onChange={handleSelect}>
-                                <option value='yes'>Yes, please</option>
-                                <option value='no'>No, maybe later</option>
+                                <option data-testid="use-prev-options" value='yes'>Yes, please</option>
+                                <option data-testid="use-prev-options" value='no'>No, maybe later</option>
                             </Select>
                         </FormControl>
                         <Dialog isOpen={isOpen} onClose={onClose} previousSearches={previousSearches} selectSearch={usePreviousSearch} />
@@ -209,7 +209,7 @@ export default function Form({updateForecast, countryData}) {
                 <FormControl textAlign='center' color='blackAlpha.700'>
                     <Checkbox name='remember' size='sm' mt={5} mb={1} onChange={handleSelect}>Remember this search</Checkbox>
                 </FormControl>
-                <Button data-testid="submit-button" type='submit' isLoading={loading} loadingText='Fetching Data' bgColor='brand.primary' color='white' _hover={{bgColor: 'brand.primary'}} spinner={<BeatLoader size={8} color='white' />} spinnerPlacement='end'>
+                <Button type='submit' isLoading={loading} loadingText='Fetching Data' bgColor='brand.primary' color='white' _hover={{bgColor: 'brand.primary'}} spinner={<BeatLoader size={8} color='white' />} spinnerPlacement='end'>
                     Check Forecast
                 </Button>
             </VStack>
