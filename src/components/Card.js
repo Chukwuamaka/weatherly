@@ -28,6 +28,7 @@ export default function Card({updateWeatherCondition, countryData}) {
         <Box rounded={12} bg='white' w={['85vw', '70vw', '60vw']} pb={10}>
             <HStack spacing={0} mb={10}>
                 <Text
+                    data-testid="data-section-heading"
                     className={cn({[styles.sectionHeading]: true, [styles.activeSection]: activeSection === 'data'})}
                     flex={1} fontWeight='semibold' borderRadius='12px 0 0' pl={5}
                     color='blackAlpha.700'
@@ -36,6 +37,7 @@ export default function Card({updateWeatherCondition, countryData}) {
                     Data
                 </Text>
                 <Text
+                    data-testid="forecast-section-heading"
                     className={cn({[styles.sectionHeading]: true, [styles.activeSection]: activeSection === 'forecast'})}
                     flex={1} fontWeight='semibold' borderRadius='0 12px 0 0' pr={5}
                     color='blackAlpha.700'

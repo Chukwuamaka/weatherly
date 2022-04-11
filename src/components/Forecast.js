@@ -20,7 +20,7 @@ export default function Forecast({forecast}) {
     }
 
     return (
-        <Box px={[3, 5]}>
+        <Box px={[3, 5]} data-testid="forecast-mounted">
             {
                 !forecast || forecast.status === 'error' ? 
                     <VStack spacing={1}>
