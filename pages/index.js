@@ -7,12 +7,8 @@ import useSWR from 'swr';
 
 // Pre-fetch list of countries and cities
 export const getStaticProps = async () => {
-  try {
-    const res = await fetch('https://countrycontinentlists.herokuapp.com/countries/all');
-    const data = await res.json();
-  } catch (error) {
-    console.log(error);
-  }
+  const res = await fetch('https://countrycontinentlists.herokuapp.com/countries/all');
+  const data = await res.json();
 
   return {
     props: {
