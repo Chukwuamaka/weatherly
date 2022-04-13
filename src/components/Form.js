@@ -16,7 +16,7 @@ export default function Form({updateForecast, countryData}) {
         coordinates: { lat: "", long: "" }
     });
 
-    // The weather api provides only current and future weather data up to 10 days
+    // The weather api provides only current and future weather data up to 3 days
     // getDateRange returns the min. (current date) and max. (current date + 2) date values obtainable
     const getDateRange = () => {
         // Get current date and add a leading zero if the number of digits is less than 2
@@ -71,11 +71,11 @@ export default function Form({updateForecast, countryData}) {
     useEffect(() => {
         let isMounted = true;   
         if (isMounted && typeof window !== 'undefined') {
-            // If 'previousSearches' key exists in localStorage, set its value to the store variable
+            // If 'previousSearches' key exists in localStorage, set its value to the previousSearches state
+            // else initiate it and set it to an empty array
             const store = localStorage.previousSearches && JSON.parse(localStorage.previousSearches);
-            // If the 'previousSearches' key does not exists, initiate it and set it to an empty array
-            localStorage.previousSearches = !store ? JSON.stringify([]) : JSON.stringify(store);
-            store && setPreviousSearches(store);
+            if (store) setPreviousSearches(store)
+            else localStorage.previousSearches = JSON.stringify([]);
         }
 
         return () => {
@@ -134,8 +134,15 @@ export default function Form({updateForecast, countryData}) {
             else {
                 const { remember, date, ...choices } = formData;
                 // Save search to localStorage if user checked the checkbox
-                remember && localStorage.setItem('previousSearches', JSON.stringify([...previousSearches, choices]))
+                if (remember) {
+                    // Filter against double/multiple entries of the same search
+                    const filteredSearch = previousSearches.filter(search => search.city !== choices.city);
+                    // Update local storage
+                    localStorage.previousSearches = JSON.stringify([...filteredSearch, choices]);
+                }
+                // Filter the api response for weather data for the selected date
                 const filter = data.forecast?.forecastday.filter(day => day.date === formData.date);
+                // Since the filter method does not mutate the original array, manually update the value of the 'forecastday' array in the api response data
                 data.forecast.forecastday = filter;
                 data.today = data.forecast?.forecastday[0]?.date === getDateRange().min ? true : false;
                 return updateForecast({status: 'success', data});
