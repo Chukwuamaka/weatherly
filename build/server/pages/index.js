@@ -260,7 +260,7 @@ function Form({
       lat: "",
       long: ""
     }
-  }); // The weather api provides only current and future weather data up to 10 days
+  }); // The weather api provides only current and future weather data up to 3 days
   // getDateRange returns the min. (current date) and max. (current date + 2) date values obtainable
 
   const getDateRange = () => {
@@ -397,8 +397,16 @@ function Form({
               choices = _objectWithoutProperties(formData, _excluded); // Save search to localStorage if user checked the checkbox
 
 
-        remember && localStorage.setItem('previousSearches', JSON.stringify([...previousSearches, choices]));
-        const filter = (_data$forecast = data.forecast) === null || _data$forecast === void 0 ? void 0 : _data$forecast.forecastday.filter(day => day.date === formData.date);
+        if (remember) {
+          // Filter against double/multiple entries of the same search
+          const filteredSearch = previousSearches.filter(search => search.city !== choices.city); // Update local storage
+
+          localStorage.previousSearches = JSON.stringify([...filteredSearch, choices]);
+        } // Filter the api response for weather data for the selected date
+
+
+        const filter = (_data$forecast = data.forecast) === null || _data$forecast === void 0 ? void 0 : _data$forecast.forecastday.filter(day => day.date === formData.date); // Since the filter method does not mutate the original array, manually update the value of the 'forecastday' array in the api response data
+
         data.forecast.forecastday = filter;
         data.today = ((_data$forecast2 = data.forecast) === null || _data$forecast2 === void 0 ? void 0 : (_data$forecast2$forec = _data$forecast2.forecastday[0]) === null || _data$forecast2$forec === void 0 ? void 0 : _data$forecast2$forec.date) === getDateRange().min ? true : false;
         return updateForecast({
